@@ -1,4 +1,4 @@
-package com.example.frostedfin.test;
+package com.github.apiops.open_api_training_turku.turkustreetmaintenance;
 
 import org.junit.Test;
 

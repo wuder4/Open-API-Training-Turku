@@ -1,11 +1,10 @@
-package com.example.frostedfin.test;
+package com.github.apiops.open_api_training_turku.turkustreetmaintenance;
 
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -13,7 +12,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -28,11 +26,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+<<<<<<< HEAD:android-app/app/src/main/java/com/example/frostedfin/test/MapsActivity.java
     public final URL mTurkuApiUrl = new URL("https://apinf.io:3002/turku_street_maintenance_v1/vehicles/?limit=10&since=2017&api_key=ijHGHoi3nP3wWFnsX8cy3FdZQ4HqXyOCKjWt9UvX ");
+=======
+    public final URL mTurkuApiUrl =
+            new URL("https://apinf.io:3002/turku_street_maintenance_v1/vehicles/?limit=10&since=2017&api_key=getyourkeufromapinf.io");
+>>>>>>> refs/remotes/origin/master:android-app/app/src/main/java/com/github/apiops/open_api_training_turku/turkustreetmaintenance/MapsActivity.java
 
     public MapsActivity() throws MalformedURLException {
     }
@@ -59,6 +61,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void addMarksFromJson(String jsonStr) {
 
+        Toast.makeText(getApplicationContext(),"JSON: " + jsonStr,
+                Toast.LENGTH_SHORT).show();
+
+        if (jsonStr.length() == 0 ) {
+            Toast.makeText(getApplicationContext(),
+                    "JSON was empty. Most likely API key was missing. Get yours from apinf.io." + jsonStr,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         JSONArray turkuAll = null;
         try {
@@ -66,8 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String koira="";
-        String kissa="";
+
         for (int i = 0; i< turkuAll.length(); i++) {
             try {
                 String lastLocationStr = turkuAll.getJSONObject(i).getString("last_location").toString();
@@ -91,8 +101,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String latitude = coordsJsonArray.getString(1);
                 double lon = Double.parseDouble(longitude);
                 double lat = Double.parseDouble(latitude);
-                kissa = kissa + " " + "Kierros " + Integer.toString(i) + "long =" + longitude + "\n";
-                koira = koira + " " + "Kierros " + Integer.toString(i) + "lat =" + latitude + "\n";
                 LatLng uusin = new LatLng(lat, lon);
                 mMap.addMarker(new MarkerOptions().position(uusin).title(eventsJsonArray.getString(0)));
 
